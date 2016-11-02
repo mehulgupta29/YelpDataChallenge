@@ -5,14 +5,22 @@ This is the starting point of the project. It is equivalent to the main() in C /
 import util
 import constants
 
-#pyData = util.loadAndConvertJSONData(util.FileConstant['test'])
+pyData = util.loadAndConvertJSONData(constants.FileNames['business'])
 #print(pyData)
-#print(pyData[0]['votes'])
+util.convertToCSV(pyData, 'business')
 
-print(constants.FileNames['business'])
-print(constants.FileNames['test'])
+pyData = util.loadAndConvertJSONData(constants.FileNames['checkin'])
+#print(pyData)
+util.convertToCSV(pyData, 'checkin')
 
-f=open(constants.FileNames['test'])
-for f1 in f:
-	print(f1)
+pyData = util.loadAndConvertJSONData(constants.FileNames['review'])
+#print(pyData)
+util.convertToCSV(pyData, 'review')
 
+pyData = util.loadAndConvertJSONData(constants.FileNames['tip'])
+#print(pyData)
+util.convertToCSV(pyData, 'tip')
+
+pyData = util.loadAndConvertJSONData(constants.FileNames['user'])
+#print(pyData)
+util.convertToCSV(pyData, 'user')

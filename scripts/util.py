@@ -3,6 +3,7 @@
 """
 import json
 import os
+import csv
 
 def loadAndConvertJSONData(fname):
 	"""
@@ -26,3 +27,19 @@ def getAbsFileName(fname):
 	fileAbsPath=os.path.abspath(fname)
 	return fileAbsPath
 
+def convertToCSV(dataList, fname):
+	key=[]
+	f = csv.writer(open(fname+".csv", "w"))
+	
+	#Write CSV Header, If you dont need that, remove this line
+	for k in dataList[0].keys():
+		key.append(k)
+	f.writerow(key)
+
+	#Write the data to csv
+	for dataDict in dataList:
+		value=[]
+		for v in dataDict.values():
+			value.append(v)
+		f.writerow(value)
+	print(fname+".csv", "successfully created")
