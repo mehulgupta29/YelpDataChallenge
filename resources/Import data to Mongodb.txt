@@ -1,0 +1,13 @@
+Run mongod
+
+In a new terminal run the following commands
+
+mongoimport --db pythondb --collection tip --file /Users/MehulGupta/Stevens/Courses/BIA660A/Project/Code/scripts/data/yelp_academic_dataset_tip.json
+
+mongoimport --db pythondb --collection business --file /Users/MehulGupta/Stevens/Courses/BIA660A/Project/Code/scripts/data/yelp_academic_dataset_business.json
+
+mongoimport --db pythondb --collection checkin --file /Users/MehulGupta/Stevens/Courses/BIA660A/Project/Code/scripts/data/yelp_academic_dataset_checkin.json
+
+mongoimport --db pythondb --collection review --file /Users/MehulGupta/Stevens/Courses/BIA660A/Project/Code/scripts/data/yelp_academic_dataset_review.json --batchSize 1
+
+mongoimport --db pythondb --collection user --file /Users/MehulGupta/Stevens/Courses/BIA660A/Project/Code/scripts/data/yelp_academic_dataset_user.json
