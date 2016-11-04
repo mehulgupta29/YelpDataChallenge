@@ -4,23 +4,52 @@ This is the starting point of the project. It is equivalent to the main() in C /
 
 import util
 import constants
+#import numpy as np
+#import pandas as pd
 
-pyData = util.loadAndConvertJSONData(constants.FileNames['business'])
-#print(pyData)
-util.convertToCSV(pyData, 'business')
+def checkinPerBusiness(checkins):
+	"""
+		get the count of checkins for each business
+	"""
+	noOfCheckingPerBusi={}
+	for checkin in checkins:
+		noOfCheckingPerBusi[checkin['business_id']]=noOfCheckingPerBusi.get(checkin['business_id'], 0)+1
+	return noOfCheckingPerBusi
 
-pyData = util.loadAndConvertJSONData(constants.FileNames['checkin'])
-#print(pyData)
-util.convertToCSV(pyData, 'checkin')
+#checkins = util.loadAndConvertJSONData(constants.FileNames['checkin'])
+#print(util.sortValuesDesc(checkinPerBusiness(checkins), 20))
 
-pyData = util.loadAndConvertJSONData(constants.FileNames['review'])
-#print(pyData)
-util.convertToCSV(pyData, 'review')
+def averageReviewPerBusiness(reviews):
+	freq={}
+	for review in reviews:
+		business_id = review['business_id']
+		date = review['date']
+		stars = review['stars']
 
-pyData = util.loadAndConvertJSONData(constants.FileNames['tip'])
-#print(pyData)
-util.convertToCSV(pyData, 'tip')
+		if business_id in freq:
+			if date in freq[business_id]:
+				(T,C,F) = freq[business_id][date]
+				freq[business_id][date] = (T+stars, C+1, util.calculateAverage(T+stars, C+1))
+			else:
+				freq[business_id][date] = (stars, 1, util.calculateAverage(stars, 1))
+		else:
+			freq[business_id]={date: (stars, 1, util.calculateAverage(stars, 1))}
+	return freq
 
-pyData = util.loadAndConvertJSONData(constants.FileNames['user'])
-#print(pyData)
-util.convertToCSV(pyData, 'user')
+
+def getFormatedData(avgReviews):
+	result=[]
+	for k,v in avgReviews.items():
+		business_id = k
+		for d,a in v.items():
+			date = d
+			avg = a[2] 
+			result.append((business_id, date, avg))
+	return result
+
+
+
+reviews = util.loadAndConvertJSONData(constants.FileNames['review'])
+freq = averageReviewPerBusiness(reviews)
+#print(freq)
+util.writeDataToJSON('average-reviews-per-busi-per-date', ['business_id', 'date', 'average_stars'], getFormatedData(freq))
