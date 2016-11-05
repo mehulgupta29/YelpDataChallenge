@@ -183,7 +183,7 @@ def getReviewsPerDate(reviews, businessid, startdate):
 			if startdate in review['date']:
 				text = review['text']
 				text = re.sub('[^a-zA-Z\d\.]', ' ', text)
-				#print(text,"\n\n\n\n\n")
+				#text = re.sub('so+', 'so', text)
 				result.append(text)
 	print(TAG, "COMPLETED - getReviewsPerDate ")
 	return result
@@ -211,7 +211,7 @@ def reviewCountPerDatePerBusiness(reviews):
 			freq[business_id][date]=freq[business_id].get(date, 0)+1
 		else:
 			freq[business_id]={date: 1}
-	print(reviewFreq)
+	print(freq)
 	return freq
 
 def getKReviewCountsResults(reviewCountFreq, k):
@@ -220,5 +220,5 @@ def getKReviewCountsResults(reviewCountFreq, k):
 		for date, count in value.items():
 			if count >= k:
 				result=(key, date, count)
-	#print(result)
+	print(result)
 	return result

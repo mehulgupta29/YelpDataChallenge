@@ -13,5 +13,6 @@ FileNames={
 	'reviews-train': util.getAbsFileName('data/reviews_train.txt'),
 	'reviews-test': util.getAbsFileName('data/reviews_test.txt'),
 	'reviews-test-perbusiness-perdate': util.getAbsFileName('data/reviews_test_perbusiness_perdate.txt'),
+	'tips-test-perbusiness-perdate': util.getAbsFileName('data/tips_test_perbusiness_perdate.txt')
 	}
 
