@@ -40,10 +40,4 @@ def run(path):
 			pfreq[word]=pfreq.get(word,0)+1
 
 	fin.close()
-	return pfreq 
- 
-
-
-
-
-
+	return pfreq
