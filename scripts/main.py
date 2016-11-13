@@ -6,16 +6,55 @@ import util
 import constants
 import computeAverageStars
 import sentimentAnalysis as sa
+import changepoints as cp
+import events
 #import numpy as np
 #import pandas as pd
 
 TAG = 'Code/scripts/main :'
 print(TAG, "STARTING MAIN ----------")
 
+"""
+#calculate average review per bucket per business
+
+print(TAG, "STARTING COMPUTATION - AVERAGE STARS PER BUCKET PER BUSINESS ----------")
+
+print(TAG, "LOADING REVIEWS ----------")
+reviews = util.loadAndConvertJSONData(constants.FileNames['review'])	#Read all the reviews from the file
+print(TAG, "REVIEWS LOADED SUCCESSFULLY -> Computing Freq")
+
+bucket='quarter' #bucketType={'day','month','year','quarter','semester'}
+freq = computeAverageStars.averageStarsPerBucketPerBusiness(reviews, bucket)	#Compute the freq of average stars per bucket per business
+#print(freq)
+
+print(TAG, "REVIEWS FREQ COMPUTED -> Detecting Change points")
+#util.writeDataToJSON('average-reviews-per-busi-per-date', ['business_id', 'date', 'average_stars'], computeAverageStars.getFormatedData(freq))
+
+threshold = 2 #the absolute difference between average stars to be considered as a changepoint
+changepoints = cp.detectChangepoint(freq, threshold)
+print(changepoints)
+
+print(TAG, "ENDED COMPUTATION - AVERAGE STARS PER BUCKET PER BUSINESS ----------")
+"""
+
+"""
+#Find events
+
+print(TAG, "STARTING COMPUTATION - Events")
+
+print(TAG, "LOADING REVIEWS ----------")
+reviews = util.loadAndConvertJSONData(constants.FileNames['test'])	#Read all the reviews from the file
+print(TAG, "REVIEWS LOADED SUCCESSFULLY -> Computing Freq")
+
+bucket='quarter' #bucketType={'day','month','year','quarter','semester'}
+freq = events.run(reviews, bucket)	
+
+print(TAG, "ENDED COMPUTATION - EVENTS")
+"""
 
 """
 #Sentiment Analysis - Tips
-"""
+
 print(TAG, "LOADING TIPS ----------")
 tips = util.loadAndConvertJSONData(constants.FileNames['tip'])
 print(TAG, "TIPS LOADED SUCCESSFULLY")
@@ -37,7 +76,7 @@ sa.saveReviewsToTXT(tipList, tipTestFname)
 sa.run(constants.FileNames['reviews-train'], tipTestFname)
 
 print(TAG, "ENDED SENTIMENT ANALYSIS  ----- TIPS -----")
-
+"""
 
 
 

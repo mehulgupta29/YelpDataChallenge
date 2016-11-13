@@ -5,6 +5,7 @@ import json
 import os
 import csv
 from operator import itemgetter
+from datetime import datetime
 
 def loadAndConvertJSONData(fname):
 	"""
@@ -69,3 +70,41 @@ def writeDataToJSON(fname, headers, data):
 
 	print(fname+".csv", "successfully created")
 	
+def bucketedDate(dateStr, bucket):
+	formate="%Y-%m-%d"
+	dateObj=datetime.strptime(dateStr, formate)
+	bucketType={'day': dateObj.day, 'month': dateObj.month, 'year': dateObj.year, 'quarter': quarter(dateObj), 'semester': semester(dateObj)}
+	return bucketType[bucket]
+
+def quarter(dateObj):
+	""" 
+		Wrong Implementation
+	"""
+	year=dateObj.year
+	month=dateObj.month
+	if 1<= month <= 3:
+		return str(year)+'-Q1'
+	elif 4<= month <=6:
+		return str(year)+'-Q2'
+	elif 7<= month <=9:
+		return str(year)+'-Q3'
+	elif 10<= month <=12:
+		return str(year)+'-Q4'
+	else:
+		return "ERROR - Invalid quarter"
+
+def semester(dateObj):
+	"""
+		Wrong Implementation
+	"""
+	year=dateObj.year
+	month=dateObj.month
+	if 1<= month <= 4:
+		return str(year)+'-S1'
+	elif 5<= month <=8:
+		return str(year)+'-S2'
+	elif 9<= month <=12:
+		return str(year)+'-S3'
+	else:
+		return "ERROR - Invalid semester"
+

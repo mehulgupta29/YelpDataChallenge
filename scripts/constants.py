@@ -10,6 +10,7 @@ FileNames={
 	'test': util.getAbsFileName('data/test.json'),
 	'positive-words': util.getAbsFileName('data/positive-words.txt'),
 	'negative-words': util.getAbsFileName('data/negative-words.txt'),
+	'common-words': util.getAbsFileName('data/common-words.txt'),
 	'reviews-train': util.getAbsFileName('data/reviews_train.txt'),
 	'reviews-test': util.getAbsFileName('data/reviews_test.txt'),
 	'reviews-test-perbusiness-perdate': util.getAbsFileName('data/reviews_test_perbusiness_perdate.txt'),

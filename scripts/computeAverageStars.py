@@ -1,6 +1,8 @@
 """
 	computeAverageStars script is used to define the functions that are used to find the average stars per date for a particular business
 """
+from datetime import datetime
+import util
 
 def averageReviewPerBusiness(reviews):
 	freq={}
@@ -29,3 +31,22 @@ def getFormatedData(avgReviews):
 			avg = a[2] 
 			result.append((business_id, date, avg))
 	return result
+
+def averageStarsPerBucketPerBusiness(reviews, bucket):
+
+	freq={} # {businessId: {date: (T, C, F), date2: (T, C, F), ...}, businessId2: {...}, ...}
+	for review in reviews:
+		business_id = review['business_id']
+		date = util.bucketedDate(review['date'], bucket)
+		stars = review['stars']
+
+		if business_id in freq:
+			if date in freq[business_id]:
+				(T,C,F) = freq[business_id][date]
+				freq[business_id][date] = (T+stars, C+1, util.calculateAverage(T+stars, C+1))
+			else:
+				freq[business_id][date] = (stars, 1, util.calculateAverage(stars, 1))
+		else:
+			freq[business_id]={date: (stars, 1, util.calculateAverage(stars, 1))}
+	return freq
+
