@@ -106,7 +106,6 @@ def performSentimentAnalysis(reviews, trainingFname, threshold):
 	sentianalysis={}
 	counter,clf=trainClassifier(trainingFname)
 	accuracyScore=findAccurayScore('reviews-test', counter, clf)
-	print(accuracyScore)
 	
 	for bid, values in reviews.items():
 		for cp in values:

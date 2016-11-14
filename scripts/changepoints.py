@@ -99,5 +99,9 @@ def run(params):
 	out.outputChangePoints(reviews, params['granularity'])
 	endTime=time.time()
 	timeElapsed=time.localtime(endTime-startTime)
+
+	#Output Statistics
+	stats=out.computeCPStatistics(reviews)
+	print(stats)
 	print(TAG, " -- DONE -- Total time elapsed:", timeElapsed.tm_min, 'mins', timeElapsed.tm_sec, "secs")
 
