@@ -7,42 +7,32 @@ import csv
 from operator import itemgetter
 from datetime import datetime
 
-TAG = 'Code/scripts/Util :'
-
-def getAbsFileName(fname):
-	"""
-		Returns the absolute file path of a file
-	"""
-	fileAbsPath=os.path.abspath(fname)
-	return fileAbsPath
-
-def loadConvertJSONPy(fname):
+def loadAndConvertJSONData(fname):
 	"""
 	 This function reads a json file as input and convert it to a python object. It returns a list of dictionaries
 	"""
-	print(TAG, "loadConvertJSONPy()")
-	#stopLex=loadWordFiles()
 	pyDataList=[]
 	file=open(fname)
 	for jsonText in file:
 		jsonToPy=json.loads(jsonText)
-		#jsonToPy['text']=formatText(jsonToPy['text'], stopLex)
 		pyDataList.append(jsonToPy)
 	file.close()
 	return pyDataList
 
-def convertPyJson(pyData):
+def convertPyToJson(pyData):
 	"""
 	 This function takes a python object (List, Dict, Set, Boolean, String, Integer) and returns an equivalent json object 
 	"""
 	return json.dumps(pyData)
 
+def getAbsFileName(fname):
+	fileAbsPath=os.path.abspath(fname)
+	return fileAbsPath
+
 def convertToCSV(dataList, fname):
-	"""
-		convert a python list to csv and write it to a file
-	"""
 	key=[]
 	f = csv.writer(open(fname+".csv", "w"))
+	
 	#Write CSV Header, If you dont need that, remove this line
 	for k in dataList[0].keys():
 		key.append(k)
@@ -65,27 +55,22 @@ def sortValuesDesc(dataDict, k):
 	return sortedByValue[:k] # return the top k terms and their frequencies
 
 def calculateAverage(T,C):
-	"""
-		Compute average = Total sum / count
-	"""
 	return T/C
 
-def writeDataToCSV(fname, headers, data):
-	"""
-		Write data as csv to a file
-	"""
+def writeDataToJSON(fname, headers, data):
+	
 	f = csv.writer(open(fname+".csv", "w"))
+	
 	#Write CSV Header, If you dont need that, remove this line
 	f.writerow(headers)
+
 	#Write the data to csv
 	for rec in data:
 		f.writerow(rec)
+
 	print(fname+".csv", "successfully created")
 	
 def bucketedDate(dateStr, bucket):
-	"""
-		Takes date string and bucket type as input and returns date in buckted format
-	"""
 	formate="%Y-%m-%d"
 	dateObj=datetime.strptime(dateStr, formate)
 	bucketType={'day': dateObj.day, 'month': dateObj.month, 'year': dateObj.year, 'quarter': quarter(dateObj), 'semester': semester(dateObj)}
@@ -93,7 +78,7 @@ def bucketedDate(dateStr, bucket):
 
 def quarter(dateObj):
 	""" 
-		Takes a datetime object as input and convert the date into quarters. A year has 4 quarter each 3 months long.
+		Wrong Implementation
 	"""
 	year=dateObj.year
 	month=dateObj.month
@@ -110,7 +95,7 @@ def quarter(dateObj):
 
 def semester(dateObj):
 	"""
-		Takes a datetime object as input and convert the date into semesters. A year has 3 semester each 4 months long.
+		Wrong Implementation
 	"""
 	year=dateObj.year
 	month=dateObj.month
