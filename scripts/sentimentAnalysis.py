@@ -100,7 +100,7 @@ def performSentimentAnalysis(reviews, trainingFname, threshold):
 			trainingFname = File name of training dataset
 			threshold = float - confidence score should be greater than equal to threshold
 		output:
-			sentianalysis = {bid: [{startBucket:, endBucket:, slope:, text: [Tsb+Teb], sentimentAnalysisScore:, accuracyScore:, confidenceScore:}, {...}, ...], ...}
+			sentianalysis = {bid: [{startBucket:, endBucket:, slope:, sentimentAnalysisScore:, accuracyScore:, confidenceScore:}, {...}, ...], ...}
 	"""
 	print(TAG, "performSentimentAnalysis()")
 	sentianalysis={}

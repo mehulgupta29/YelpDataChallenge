@@ -4,6 +4,10 @@ This is the starting point of the project. It is equivalent to the main() in C /
 import sys
 import ChangePoints as cp
 import Constants as const
+import Metrics as me
+import Mappings as ma
+import Output as out
+import Events as ev
 
 TAG = 'Code/scripts/Main :'
 
@@ -11,7 +15,29 @@ def runChangePoints(params):
 	"""
 	Find change points
 	"""
-	cp.run(params)
+	changepoints=cp.run(params)
+	#print(changepoints)
+
+	#Output the change points
+	out.outputChangePoints(changepoints, params['granularity'])
+
+	#Compute Statistics of output
+	print(TAG, "Change Point Stats\n\n")
+	stats=me.computeCPStatistics(changepoints)
+	print(stats)
+
+	#Map and predict
+	print(TAG, "Map and predict")
+	mappings=ma.run(params, changepoints)
+	
+	print(TAG, " -- Done -- exiting...")
+
+
+def runEvents(params):
+	"""
+	Find Events
+	"""
+	events=ev.run(params)
 
 def inputParams(argv):
 	params={}
@@ -46,14 +72,41 @@ def inputParams(argv):
 	else:
 		params['granularity']='general'
 
+	if ('--kneighbours' or '-k') in argv:
+		params['kneighbours']=int(argv[argv.index('--kneighbours')+1])
+	else:
+		params['kneighbours']=int(5)
+
+	if ('--eventthreshold' or '-e') in argv:
+		params['eventthreshold']=float(argv[argv.index('--eventthreshold')+1])
+	else:
+		params['eventthreshold']=float(200)
+
+	if ('--eventstartbucket' or '-esb') in argv:
+		params['eventstartbucket']=argv[argv.index('--eventstartbucket')+1]
+	else:
+		params['eventstartbucket']='2015-07-01'
+
+	if ('--eventendbucket' or '-eeb') in argv:
+		params['eventendbucket']=argv[argv.index('--eventendbucket')+1]
+	else:
+		params['eventendbucket']='2015-12-31'
+	
+	
+
 	return params
 
 if __name__ == "__main__":
+	"""
+	run command: 
+		python Main.py --bucket quarter --averagestars 0.5 --confidencescore 60 --granularity general --kneighbours 5 --eventthreshold 300
+	"""
 	print(TAG, "STARTING")
 
 	params=inputParams(sys.argv)
 	#print(params)
 	
-	runChangePoints(params)
+	#runChangePoints(params)
+	runEvents(params)
 
 	print(TAG, "ENDING")

@@ -2,9 +2,10 @@
 	This script detects events
 """
 from nltk.corpus import stopwords
-import util
+import Util as util
 import re
-import constants
+import Constants as constants
+import nltk
 
 TAG = 'Code/scripts/events :'
 stopLex=''
@@ -12,7 +13,9 @@ stopLex=''
 def load():
 	posLex=loadLexicon(constants.FileNames['positive-words'])
 	negLex=loadLexicon(constants.FileNames['negative-words'])
+	comLex=loadLexicon(constants.FileNames['common-words'])
 	stopLex=set(stopwords.words('english')+list(posLex)+list(negLex))
+	return stopLex
 
 def loadLexicon(fname):
 	newLex=set()
@@ -69,17 +72,23 @@ def metrics(newvalue):
 	'max': max(valuelist)}
 	return obj
 
-def run(reviews, bucket):
+def run(reviews, params):
 	print(TAG, "STARTING - wordcount ")
-	posLex=loadLexicon(constants.FileNames['positive-words'])
-	negLex=loadLexicon(constants.FileNames['negative-words'])
-	comLex=loadLexicon(constants.FileNames['common-words'])
-	stopLex=set(stopwords.words('english')+list(posLex)+list(negLex)+list(comLex))
+
+	#Load and Convert JSON to Py
+	"""
+	print(TAG, "Load Reviews and Convert JSON to Python")
+	reviews = util.loadConvertJSONPy(const.FileNames['review'])
+	print(TAG, "Successful: Reviews Loaded")
+	"""
+	
+
+	stopLex=load()
 
 	freq={} #{word: {date:count, date2:count2, ..., metrics:{sum:, count:, mean:, median:, max:, valuelist:[]}}, ...}
 	for review in reviews:
 		words=perprocessedText(review['text'], stopLex)
-		date=util.bucketedDate(review['date'], bucket)
+		date=util.bucketedDate(review['date'], params['bucket'])
 		for word in words:			
 			if word in freq:
 				if date in freq[word]:

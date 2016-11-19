@@ -51,13 +51,15 @@ def run(params):
 		it executes the program in an sequential way to determine the changepoints
 		input:
 			params: a dictonary that has all the user inputed params
+		output:
+			reviews: {bid: [{startBucket:, endBucket:, slope:, sentimentAnalysisScore:, accuracyScore:, confidenceScore:}, {...}, ...], ...}
 	"""
 
 	startTime=time.time()
 	print(TAG, " -- STARTING --", time.ctime(startTime))
 
 	#Load and Convert JSON to Py
-	print(TAG, "Load and Convert JSON to Python")
+	print(TAG, "Load Reviews and Convert JSON to Python")
 	lapTime=time.time()
 	reviews = util.loadConvertJSONPy(const.FileNames['review'])
 	endTime=time.time()
@@ -95,13 +97,8 @@ def run(params):
 	timeElapsed=time.localtime(endTime-lapTime)
 	print(TAG, "Successful: performed sentiment analysis", timeElapsed.tm_min, 'mins', timeElapsed.tm_sec, "secs")	
 
-	#Output the change points
-	out.outputChangePoints(reviews, params['granularity'])
 	endTime=time.time()
 	timeElapsed=time.localtime(endTime-startTime)
-
-	#Output Statistics
-	stats=out.computeCPStatistics(reviews)
-	print(stats)
 	print(TAG, " -- DONE -- Total time elapsed:", timeElapsed.tm_min, 'mins', timeElapsed.tm_sec, "secs")
 
+	return reviews

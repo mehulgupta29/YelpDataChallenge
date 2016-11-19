@@ -21,7 +21,6 @@ def loadConvertJSONPy(fname):
 	 This function reads a json file as input and convert it to a python object. It returns a list of dictionaries
 	"""
 	print(TAG, "loadConvertJSONPy()")
-	#stopLex=loadWordFiles()
 	pyDataList=[]
 	file=open(fname)
 	for jsonText in file:
