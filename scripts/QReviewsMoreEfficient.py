@@ -6,7 +6,7 @@ from nltk.corpus import stopwords
 import re
 from nltk.tokenize import word_tokenize
 
-TAG = 'Code/scripts/QReviewsMoreEfficient? :'
+TAG = 'Code/scripts/QReviewsMoreEfficient :'
 
 def loadLexicon(fname):
 	newLex=set()
@@ -58,14 +58,33 @@ def detectEvents(freq, threshold):
 	event={}
 	sortedBucketList=sorted(freq.keys())
 	for i in range(len(sortedBucketList)-1):
-		print(i, sortedBucketList[i], sortedBucketList[i+1], threshold)
+		#print(i, sortedBucketList[i], sortedBucketList[i+1], threshold)
 		event[sortedBucketList[i]]=percentchange(freq[sortedBucketList[i]], freq[sortedBucketList[i+1]], threshold)
 	print(TAG, "COMPLETED - detectEvents ")
 	return event
 
+def run(params):
+	print(TAG, 'Running EVENTS')
+
+	print(TAG, 'Loading PreProcessed JSON Reviews file - review-bucket-quarter-freqdist')
+	#{bucket: nltk.FreqDist, bucket2:nltk.FreqDist, ...}
+	bucketedReviews=util.loadConvertJSONPy(constants.FileNames['review-bucket-quarter-freqdist'])
+	bucketedReviews=bucketedReviews[0]
+	print(TAG, 'JSON to PY converted')
+	
+	print(TAG, 'Detecting Events: Analysing word freq distribution and finding patterns')
+	events=detectEvents(bucketedReviews, params['eventthreshold'])
+	print(TAG, 'Events Detected')
+
+
+	print(TAG, 'Printing events for bucket : 2016-Quarter2 till 2016-Quarter3\n',events['2016-Q2']) 
+	#output: events['2016-Q2']:{'wahlburgers': 2300.0, 'underpriced': 300.0, 'macdonald': 300.0, 'kanoa': 350.0, 'barbocoa': 400.0, 'chomped': 500.0, 'merts': 300.0, 'pokemon': 1100.0, 'kleinfeld': 500.0, 'mylene': 350.0, 'stoppage': 300.0, 'linea': 300.0, 'afc': 300.0, 'squeegee': 400.0, 'bharta': 400.0, 'naseem': 300.0, 'tuner': 600.0, 'mvah': 300.0, 'awrs': 500.0, 'tatami': 300.0, 'wahlburger': 300.0, 'nama': 500.0, 'jul': 700.0, 'asbestos': 300.0, 'honneur': 300.0, 'hasbrown': 300.0, 'bebop': 300.0, 'obstructions': 300.0, 'appie': 400.0, 'kerosene': 300.0, 'telefono': 400.0, 'urology': 300.0, 'rhett': 300.0, 'july': 336.318407960199, 'cks': 300.0, 'caliper': 800.0, 'fufu': 300.0, 'athena': 500.0, 'oxford': 300.0, 'ivc': 300.0, 'takamatsu': 300.0, 'pizio': 300.0, 'estava': 500.0, 'mortimer': 300.0, 'burma': 500.0, 'bodyflo': 500.0, 'firenze': 300.0, 'kavsar': 300.0, 'huger': 400.0, 'ary': 300.0, 'jaenica': 700.0, 'luxxi': 300.0, 'complexe': 300.0, 'skywater': 600.0, 'bbh': 400.0, 'weidner': 500.0, 'lockmaster': 300.0, 'collier': 400.0, 'brinks': 300.0, 'presotea': 500.0, 'tract': 300.0, 'unpleased': 300.0, 'freshbox': 300.0, 'jatoba': 300.0, 'ppm': 600.0, 'greedily': 300.0, 'fucker': 300.0, 'uzbek': 300.0, 'rewired': 300.0, 'madeleine': 400.0, 'compadres': 300.0, 'peanutbutter': 400.0, 'pandamonium': 300.0, 'andarra': 600.0, 'choripan': 300.0, 'mutt': 800.0, 'eddies': 300.0, 'lc': 300.0}
+
+
 
 if __name__ == "__main__":
 
+	"""
 	print(TAG, "STARTING PART-5...")
 
 
@@ -80,7 +99,7 @@ if __name__ == "__main__":
 	print(events['2016-Q2']) 
 	#output: events['2016-Q2']:{'wahlburgers': 2300.0, 'underpriced': 300.0, 'macdonald': 300.0, 'kanoa': 350.0, 'barbocoa': 400.0, 'chomped': 500.0, 'merts': 300.0, 'pokemon': 1100.0, 'kleinfeld': 500.0, 'mylene': 350.0, 'stoppage': 300.0, 'linea': 300.0, 'afc': 300.0, 'squeegee': 400.0, 'bharta': 400.0, 'naseem': 300.0, 'tuner': 600.0, 'mvah': 300.0, 'awrs': 500.0, 'tatami': 300.0, 'wahlburger': 300.0, 'nama': 500.0, 'jul': 700.0, 'asbestos': 300.0, 'honneur': 300.0, 'hasbrown': 300.0, 'bebop': 300.0, 'obstructions': 300.0, 'appie': 400.0, 'kerosene': 300.0, 'telefono': 400.0, 'urology': 300.0, 'rhett': 300.0, 'july': 336.318407960199, 'cks': 300.0, 'caliper': 800.0, 'fufu': 300.0, 'athena': 500.0, 'oxford': 300.0, 'ivc': 300.0, 'takamatsu': 300.0, 'pizio': 300.0, 'estava': 500.0, 'mortimer': 300.0, 'burma': 500.0, 'bodyflo': 500.0, 'firenze': 300.0, 'kavsar': 300.0, 'huger': 400.0, 'ary': 300.0, 'jaenica': 700.0, 'luxxi': 300.0, 'complexe': 300.0, 'skywater': 600.0, 'bbh': 400.0, 'weidner': 500.0, 'lockmaster': 300.0, 'collier': 400.0, 'brinks': 300.0, 'presotea': 500.0, 'tract': 300.0, 'unpleased': 300.0, 'freshbox': 300.0, 'jatoba': 300.0, 'ppm': 600.0, 'greedily': 300.0, 'fucker': 300.0, 'uzbek': 300.0, 'rewired': 300.0, 'madeleine': 400.0, 'compadres': 300.0, 'peanutbutter': 400.0, 'pandamonium': 300.0, 'andarra': 600.0, 'choripan': 300.0, 'mutt': 800.0, 'eddies': 300.0, 'lc': 300.0}
 
-	"""
+	
 	#Part-4.1
 	bucketedReviews={} #{bucket: nltk.FreqDist, bucket2:nltk.FreqDist, ...}
 	file=open(constants.FileNames['review-bucket-quarter-wordlistformat'])

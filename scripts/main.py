@@ -7,7 +7,8 @@ import Constants as const
 import Metrics as me
 import Mappings as ma
 import Output as out
-import Events as ev
+#import Events as ev
+import QReviewsMoreEfficient as ev
 
 TAG = 'Code/scripts/Main :'
 
@@ -80,7 +81,7 @@ def inputParams(argv):
 	if ('--eventthreshold' or '-e') in argv:
 		params['eventthreshold']=float(argv[argv.index('--eventthreshold')+1])
 	else:
-		params['eventthreshold']=float(200)
+		params['eventthreshold']=float(300)
 
 	if ('--eventstartbucket' or '-esb') in argv:
 		params['eventstartbucket']=argv[argv.index('--eventstartbucket')+1]
@@ -99,14 +100,14 @@ def inputParams(argv):
 if __name__ == "__main__":
 	"""
 	run command: 
-		python Main.py --bucket quarter --averagestars 0.5 --confidencescore 60 --granularity general --kneighbours 5 --eventthreshold 300
+		python Main.py --bucket quarter --averagestars 2.0 --confidencescore 74.9 --granularity general --kneighbours 5 --eventthreshold 300
 	"""
 	print(TAG, "STARTING")
 
 	params=inputParams(sys.argv)
 	#print(params)
 	
-	#runChangePoints(params)
+	runChangePoints(params)
 	runEvents(params)
 
 	print(TAG, "ENDING")
