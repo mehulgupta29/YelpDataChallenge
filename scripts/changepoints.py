@@ -101,4 +101,19 @@ def run(params):
 	timeElapsed=time.localtime(endTime-startTime)
 	print(TAG, " -- DONE -- Total time elapsed:", timeElapsed.tm_min, 'mins', timeElapsed.tm_sec, "secs")
 
+	#export reviews as csv
+	datalist=[]
+	ctr=0
+	fname='output-changepoints.csv'
+
+	headerlist=['Sr No', 'businessId', 'startBucket', 'endBucket', 'slope', 'sentimentAnalysisScore', 'accuracyScore', 'confidenceScore']
+
+	for bid, values in reviews.items():
+		for v in values:
+			ctr+=1
+			datalist.append([ctr, bid, v['startBucket'], v['endBucket'], v['slope'], v['sentimentAnalysisScore'], v['accuracyScore'], v['confidenceScore']])
+
+	util.exportAsCSV(headerlist, datalist, fname)
+
 	return reviews
+

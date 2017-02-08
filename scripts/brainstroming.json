@@ -4,7 +4,7 @@ train the model with data of business with >=4.0 stars
 now when i enter a business (stars < 4 or changepoint-slope = -ve) as test data set then model should predict what they should do to improve ratings
 cause for changepoint is Human Factors, Service Factors, Industury Factors, Market Factors, Location Factors
 
- "open": true & "categories": ["Fast Food", "Restaurants"]
+"open": true & "categories": ["Fast Food", "Restaurants"]
 "review_count" - no or reviews for this business
 "stars" - aggregated no of stars till date
 "changepoint" - last changepoint slope

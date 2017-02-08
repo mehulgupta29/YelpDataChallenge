@@ -12,34 +12,6 @@ import QReviewsMoreEfficient as ev
 
 TAG = 'Code/scripts/Main :'
 
-def runChangePoints(params):
-	"""
-	Find change points
-	"""
-	changepoints=cp.run(params)
-	#print(changepoints)
-
-	#Output the change points
-	out.outputChangePoints(changepoints, params['granularity'])
-
-	#Compute Statistics of output
-	print(TAG, "Change Point Stats\n\n")
-	stats=me.computeCPStatistics(changepoints)
-	print(stats)
-
-	#Map and predict
-	print(TAG, "Map and predict")
-	mappings=ma.run(params, changepoints)
-	
-	print(TAG, " -- Done -- exiting...")
-
-
-def runEvents(params):
-	"""
-	Find Events
-	"""
-	events=ev.run(params)
-
 def inputParams(argv):
 	params={}
 	
@@ -92,15 +64,53 @@ def inputParams(argv):
 		params['eventendbucket']=argv[argv.index('--eventendbucket')+1]
 	else:
 		params['eventendbucket']='2015-12-31'
-	
-	
+
+	if ('--dispalyeventforbucket' or '-deb') in argv:
+		params['dispalyeventforbucket']=argv[argv.index('--dispalyeventforbucket')+1]
+	else:
+		params['dispalyeventforbucket']=''
 
 	return params
+
+def runChangePoints(params):
+	"""
+	Find change points
+	"""
+	changepoints=cp.run(params)
+	#print(changepoints)
+
+	#Output the change points
+	out.outputChangePoints(changepoints, params['granularity'])
+
+	#Compute Statistics of output
+	print(TAG, "Change Point Stats\n\n")
+	stats=me.computeCPStatistics(changepoints)
+	print(stats)
+
+	#Map and predict
+	print(TAG, "Map and predict")
+	mappings=ma.run(params, changepoints)
+	
+	print(TAG, " -- Done -- exiting...")
+
+
+def runEvents(params):
+	"""
+	Find Events
+	"""
+	events=ev.run(params)
+
+	#Output the events
+	headerlist,datalist=out.outputEvents(events, params['dispalyeventforbucket'], params['granularity'])
+	#headerlist,datalist=out.outputEvents(events, None, params['granularity'])
+
+	#Export as CSV
+	ev.exportAsCSV(headerlist, datalist, 'output-events.csv')
 
 if __name__ == "__main__":
 	"""
 	run command: 
-		python Main.py --bucket quarter --averagestars 2.0 --confidencescore 74.9 --granularity general --kneighbours 5 --eventthreshold 300
+		python Main.py --bucket quarter --averagestars 2.0 --confidencescore 74.9 --granularity general --kneighbours 5 --eventthreshold 300 --dispalyeventforbucket 2016-Q2
 	"""
 	print(TAG, "STARTING")
 

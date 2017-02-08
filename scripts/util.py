@@ -55,6 +55,21 @@ def convertToCSV(dataList, fname):
 		f.writerow(value)
 	print(fname+".csv", "successfully created")
  
+def exportAsCSV(headerlist, datalist, fname):
+	key=[]
+	f = csv.writer(open(fname, "w"))
+	#Write CSV Header, If you dont need that, remove this line
+	for k in headerlist:
+		key.append(k)
+	f.writerow(key)
+
+	#Write the data to csv
+	for data in datalist:
+		value=[]
+		for v in data:
+			value.append(v)
+		f.writerow(value)
+	print(fname, "successfully created") 	
 
 def sortValuesDesc(dataDict, k):
 	"""
